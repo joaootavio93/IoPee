@@ -1,0 +1,102 @@
+﻿
+@{
+    ViewBag.Title = "Cadastro de Dispositivos";
+}
+
+<div class="jumbotron">
+    <h1>Cadastro de Dispositivos</h1>
+</div>
+
+@model IoPee.Models.DeviceViewModel
+
+@using (Html.BeginForm("Register", "Devices", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+{
+    @Html.AntiForgeryToken()
+    <h4>Informe os dados do novo dispositivo</h4>
+    <hr />
+    @Html.ValidationSummary("", new { @class = "text-danger" })
+    <div class="form-group">
+        @Html.LabelFor(m => m.Name, new { @class = "col-md-2 control-label" })
+        <div class="col-md-10">
+            @Html.TextBoxFor(m => m.Name, new { @class = "form-control" })
+        </div>
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(m => m.Humidity, new { @class = "col-md-2 control-label" })
+        <div class="col-md-10">
+            @Html.EditorFor(m => m.Humidity, new { @class = "form-control" })
+        </div>
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(m => m.Temperature, new { @class = "col-md-2 control-label" })
+        <div class="col-md-10">
+            @Html.EditorFor(m => m.Temperature, new { @class = "form-control" })
+        </div>
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(m => m.DiaperId, new { @class = "col-md-2 control-label" })
+        <div class="col-md-10">
+            @Html.DropDownListFor(m => m.DiaperId, Model.Diapers, "Selecione a fralda...",
+                htmlAttributes: new { @class = "form-control", id = "DiaperList" })
+            @Html.ValidationMessageFor(m => m.DiaperId, "", new { @class = "text-danger" })
+        </div>
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(m => m.SectorId, new { @class = "col-md-2 control-label" })
+        <div class="col-md-10">
+            @Html.DropDownListFor(m => m.SectorId, Model.Sectors, "Selecione o setor/ala...",
+                htmlAttributes: new { @class = "form-control", id = "SectorList" })
+            @Html.ValidationMessageFor(m => m.SectorId, "", new { @class = "text-danger" })
+        </div>
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(m => m.BedId, new { @class = "col-md-2 control-label" })
+        <div class="col-md-10">
+            @Html.DropDownListFor(m => m.BedId, Model.Beds, "Selecione o leito...",
+                htmlAttributes: new { @class = "form-control", id = "BedList" })
+            @Html.ValidationMessageFor(m => m.BedId, "", new { @class = "text-danger" })
+        </div>
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(m => m.MacCode, new { @class = "col-md-2 control-label" })
+        <div class="col-md-10">
+            @Html.DropDownListFor(m => m.MacCode, Model.Macs, "Selecione um dispositivo disponível...",
+                htmlAttributes: new { @class = "form-control", id = "BedList" })
+            @Html.ValidationMessageFor(m => m.MacCode, "", new { @class = "text-danger" })
+        </div>
+    </div>
+    <div class="form-group">
+        <div class="col-md-offset-2 col-md-10">
+            <input type="submit" class="btn btn-default" value="Cadastrar" />
+        </div>
+    </div>
+}
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+
+    <script type="text/javascript">
+         $(document).ready(function () {
+             $("#SectorList").change(function () {
+                 console.log("teste");
+                 var sectorId = $(this).val();
+                 $.getJSON("../Devices/GetBedsBySector", { sectorId: sectorId },
+                    function (data) {
+                        var select = $("#BedList");
+                        select.empty();
+                        select.append($('<option/>', {
+                            value: 0,
+                            text: "Selecione o leito..."
+                        }));
+                        $.each(data, function (index, itemData) {
+                            select.append($('<option/>', {
+                                value: itemData.Value,
+                                text: itemData.Text
+                            }));
+                        });
+                    });
+                });
+            });
+    </script>
+}
+

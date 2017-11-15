@@ -1,0 +1,46 @@
+﻿@{
+    ViewBag.Title = "Status dos Dispositivos";
+}
+
+<div class="jumbotron">
+    <h1>Status</h1>
+</div>
+
+@model IoPee.Models.DeviceListViewModel
+
+<div class="row">
+    @foreach (var item in @Model.Devices)
+    {
+        if (!@item.Active)
+        {
+            <div class="col-md-3">
+                <div class="panel panel-success">
+                    <div class="panel-heading">
+                        @item.Name
+                        <img src="~/Assets/happy.png" style="float: right" />
+                    </div>
+                    <div class="panel-body">
+                        <p>Setor/ala: <strong>@item.SectorName</strong></p>
+                        <p>Leito: <strong>@item.BedName</strong></p>
+                    </div>
+                </div>
+            </div>
+        }
+        else
+        {
+            <div class="col-md-3">
+                <div class="panel panel-danger">
+                    <div class="panel-heading">
+                        @item.Name
+                        <img src="~/Assets/sad.png" style="float: right" />
+                    </div>
+                    <div class="panel-body">
+                        <p>Setor/ala: <strong>@item.SectorName</strong></p>
+                        <p>Leito: <strong>@item.BedName</strong></p>
+                    </div>
+                </div>
+            </div>
+        }
+
+    }
+</div>

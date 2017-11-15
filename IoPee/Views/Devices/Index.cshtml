@@ -1,0 +1,44 @@
+﻿
+@{
+    ViewBag.Title = "Dispositivos";
+}
+
+<div class="jumbotron">
+    <h1>Dispositivos</h1>
+</div>
+
+<div>
+    <p><a href="@Url.Action("Register", "Devices")" class="btn btn-primary btn-lg">Cadastrar</a></p>
+</div>
+
+@model IoPee.Models.DeviceListViewModel
+
+<table class="table table-bordered">
+    <thead>
+        <tr>
+            <th>Nome</th>
+            <th>Humidade mínima</th>
+            <th>Temperatura mínima</th>
+            <th>Fralda</th>
+            <th>Setor/ala</th>
+            <th>Leito</th>
+            <th>MAC</th>
+            <th>Disponível</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in @Model.Devices)
+        {
+            <tr>
+                <td>@item.Name</td>
+                <td>@item.Humidity%</td>
+                <td>@item.Temperature</td>
+                <td>@item.DiaperName</td>
+                <td>@item.SectorName</td>
+                <td>@item.BedName</td>
+                <td>@item.MacCode</td>
+                <td>@(item.Enable ? "Sim" : "Não")</td>
+            </tr>
+        }
+    </tbody>
+</table>
