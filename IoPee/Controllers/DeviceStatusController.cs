@@ -28,7 +28,7 @@ namespace IoPee.Controllers
         private List<DeviceViewModel> GetDeviceList()
         {
             var deviceList = new List<DeviceViewModel>();
-            foreach (var device in ModelData.Devices.Where(d => d.Enable))
+            foreach (var device in StaticData.Devices.Where(d => d.Enable))
             {
                 deviceList.Add(new DeviceViewModel
                 {
@@ -41,7 +41,7 @@ namespace IoPee.Controllers
                     DiaperId = device.DiaperId,
                     DiaperName = device.Diaper.Name,
                     SectorId = device.Bed.SectorId,
-                    SectorName = ModelData.Sectors.Where(s => s.Id == device.Bed.SectorId).FirstOrDefault().Name,
+                    SectorName = StaticData.Sectors.Where(s => s.Id == device.Bed.SectorId).FirstOrDefault().Name,
                     BedId = device.BedId,
                     BedName = device.Bed.Name,
                     MacId = device.Mac.Id,

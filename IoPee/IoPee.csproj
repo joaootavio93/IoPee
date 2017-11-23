@@ -220,11 +220,12 @@
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\DevicesController.cs" />
     <Compile Include="Controllers\DeviceStatusController.cs" />
+    <Compile Include="Controllers\DiapersController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Controllers\UsersController.cs" />
     <Compile Include="Controllers\WebApiController.cs" />
-    <Compile Include="Data\ModelData.cs" />
+    <Compile Include="Data\StaticData.cs" />
     <Compile Include="Entities\Bed.cs" />
     <Compile Include="Entities\Device.cs" />
     <Compile Include="Entities\Diaper.cs" />
@@ -240,9 +241,12 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Schedules\ChangeDeviceStatusJob.cs" />
     <Compile Include="Schedules\ChangeDeviceStatusScheduler.cs" />
+    <Compile Include="Schedules\SendDeviceDataJob.cs" />
+    <Compile Include="Schedules\SendDeviceDataScheduler.cs" />
     <Compile Include="Startup.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Assets\alert.mp3" />
     <Content Include="Assets\happy.png" />
     <Content Include="Assets\icon.png" />
     <Content Include="Assets\sad.png" />
@@ -312,6 +316,8 @@
     <Content Include="Views\Devices\Index.cshtml" />
     <Content Include="Views\Users\Index.cshtml" />
     <Content Include="Views\Devices\Register.cshtml" />
+    <Content Include="Views\Diapers\Index.cshtml" />
+    <Content Include="Views\Diapers\Register.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

@@ -10,7 +10,7 @@ namespace IoPee.Schedules
         {
             var random = new Random();
 
-            foreach(var device in ModelData.Devices)
+            foreach(var device in StaticData.Devices)
             {
                 int sortedNumber = random.Next(2);
                 bool lastState = device.Active;

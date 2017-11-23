@@ -12,12 +12,8 @@ namespace IoPee.Models
         [Display(Name = "Nome")]
         public string Name { get; set; }
 
-        [Required]
-        [Display(Name = "Humidade(%)")]
         public int Humidity { get; set; }
 
-        [Required]
-        [Display(Name = "Temperatura")]
         public int Temperature { get; set; }
 
         public bool Enable { get; set; }
@@ -59,14 +55,36 @@ namespace IoPee.Models
         public DateTime LastChangeTime { get; set; }
 
         public string LastChangeTimeFormat { get; set; }
+    }
 
-        public int CurrentHumidity { get; set; }
+    public class DiaperViewModel
+    {
+        public int Id { get; set; }
 
-        public int CurrentTemperature{ get; set; }
+        [Required]
+        [Display(Name = "Nome")]
+        public string Name { get; set; }
+
+        [Required]
+        [Display(Name = "Marca")]
+        public string Brand { get; set; }
+
+        [Required]
+        [Display(Name = "Humidade")]
+        public int Humidity { get; set; }
+
+        [Required]
+        [Display(Name = "Temperatura")]
+        public int Temperature { get; set; }
     }
 
     public class DeviceListViewModel
     {
         public List<DeviceViewModel> Devices = new List<DeviceViewModel>();
+    }
+
+    public class DiaperListViewModel
+    {
+        public List<DiaperViewModel> Diapers = new List<DiaperViewModel>();
     }
 }

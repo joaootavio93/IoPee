@@ -1,0 +1,36 @@
+﻿
+@{
+    ViewBag.Title = "Fraldas";
+}
+
+<div class="jumbotron">
+    <h1>Fraldas</h1>
+</div>
+
+<div>
+    <p><a href="@Url.Action("Register", "Diapers")" class="btn btn-primary btn-lg">Cadastrar</a></p>
+</div>
+
+@model IoPee.Models.DiaperListViewModel
+
+<table class="table table-bordered">
+    <thead>
+        <tr>
+            <th>Nome</th>
+            <th>Marca</th>
+            <th>Humidade mínima</th>
+            <th>Temperatura mínima</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in @Model.Diapers)
+        {
+            <tr>
+                <td>@item.Name</td>
+                <td>@item.Brand</td>
+                <td>@item.Humidity</td>
+                <td>@item.Temperature</td>              
+            </tr>
+        }
+    </tbody>
+</table>

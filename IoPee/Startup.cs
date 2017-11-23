@@ -10,7 +10,8 @@ namespace IoPee
         public void Configuration(IAppBuilder app)
         {
             ConfigureAuth(app);
-            new ChangeDeviceStatusScheduler();
+            //new ChangeDeviceStatusScheduler();
+            new SendDeviceDataScheduler();
         }
     }
 }

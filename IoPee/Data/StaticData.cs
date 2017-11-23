@@ -5,7 +5,7 @@ using System.Linq;
 
 namespace IoPee.Data
 {
-    public static class ModelData
+    public static class StaticData
     {
         public static List<Diaper> Diapers = new List<Diaper>
         {
@@ -14,7 +14,7 @@ namespace IoPee.Data
                 Id = 1,
                 Name = "Pumpers #1",
                 Brand = "Pumpers",
-                Humidity = 40,
+                Humidity = 900,
                 Temperature = 5
             },
 
@@ -23,7 +23,7 @@ namespace IoPee.Data
                 Id = 2,
                 Name = "Pumpers #2",
                 Brand = "Pumpers",
-                Humidity = 45,
+                Humidity = 945,
                 Temperature = 6
             },
 
@@ -32,7 +32,7 @@ namespace IoPee.Data
                 Id = 3,
                 Name = "Pumpers #3",
                 Brand = "Pumpers",
-                Humidity = 33,
+                Humidity = 885,
                 Temperature = 9
             }
         };
@@ -151,11 +151,11 @@ namespace IoPee.Data
                 Enable = true,
                 Active = false,
                 DiaperId = 1,
-                Diaper = ModelData.Diapers.Where(d => d.Id == 1).FirstOrDefault(),
+                Diaper = StaticData.Diapers.Where(d => d.Id == 1).FirstOrDefault(),
                 MacId = 1,
-                Mac = ModelData.Macs.Where(m => m.Id == 1).FirstOrDefault(),
+                Mac = StaticData.Macs.Where(m => m.Id == 1).FirstOrDefault(),
                 BedId = 1,
-                Bed = ModelData.Sectors.Where(s => s.Id == 1).FirstOrDefault().Beds.Where(b => b.Id == 1).FirstOrDefault(),
+                Bed = StaticData.Sectors.Where(s => s.Id == 1).FirstOrDefault().Beds.Where(b => b.Id == 1).FirstOrDefault(),
                 LastChangeTime = DateTime.Now
             },
 
@@ -168,11 +168,11 @@ namespace IoPee.Data
                 Enable = true,
                 Active = true,
                 DiaperId = 2,
-                Diaper = ModelData.Diapers.Where(d => d.Id == 2).FirstOrDefault(),
+                Diaper = StaticData.Diapers.Where(d => d.Id == 2).FirstOrDefault(),
                 MacId = 2,
-                Mac = ModelData.Macs.Where(m => m.Id == 2).FirstOrDefault(),
+                Mac = StaticData.Macs.Where(m => m.Id == 2).FirstOrDefault(),
                 BedId = 2,
-                Bed = ModelData.Sectors.Where(s => s.Id == 1).FirstOrDefault().Beds.Where(b => b.Id == 2).FirstOrDefault(),
+                Bed = StaticData.Sectors.Where(s => s.Id == 1).FirstOrDefault().Beds.Where(b => b.Id == 2).FirstOrDefault(),
                 LastChangeTime = DateTime.Now
             },
 
@@ -185,11 +185,11 @@ namespace IoPee.Data
                 Enable = true,
                 Active = false,
                 DiaperId = 3,
-                Diaper = ModelData.Diapers.Where(d => d.Id == 3).FirstOrDefault(),
+                Diaper = StaticData.Diapers.Where(d => d.Id == 3).FirstOrDefault(),
                 MacId = 3,
-                Mac = ModelData.Macs.Where(m => m.Id == 3).FirstOrDefault(),
+                Mac = StaticData.Macs.Where(m => m.Id == 3).FirstOrDefault(),
                 BedId = 3,
-                Bed = ModelData.Sectors.Where(s => s.Id == 2).FirstOrDefault().Beds.Where(b => b.Id == 3).FirstOrDefault(),
+                Bed = StaticData.Sectors.Where(s => s.Id == 2).FirstOrDefault().Beds.Where(b => b.Id == 3).FirstOrDefault(),
                 LastChangeTime = DateTime.Now
             },
         };
