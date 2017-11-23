@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Web.Mvc;
 
@@ -54,6 +55,10 @@ namespace IoPee.Models
         public string MacCode { get; set; }
 
         public IEnumerable<SelectListItem> Macs = new List<SelectListItem>();
+
+        public DateTime LastChangeTime { get; set; }
+
+        public string LastChangeTimeFormat { get; set; }
 
         public int CurrentHumidity { get; set; }
 

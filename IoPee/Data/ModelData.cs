@@ -1,4 +1,5 @@
 ﻿using IoPee.Entities;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -110,21 +111,33 @@ namespace IoPee.Data
         {
             new Mac
             {
-                Id = 0,
+                Id = 1,
                 Code = "38-B1-DB-CD-04-29"
             },
 
             new Mac
             {
-                Id = 0,
+                Id = 2,
                 Code = "83-B4-DY-PP-44-22"
             },
 
              new Mac
             {
-                Id = 1,
+                Id = 3,
                 Code = "00-AA-BB-CC-11-22"
-            }
+            },
+
+            new Mac
+            {
+                Id = 0,
+                Code = "01-B4-ZZ-GH-44-22"
+            },
+
+             new Mac
+            {
+                Id = 0,
+                Code = "66-HH-UI-CC-66-00"
+            },
         };
 
         public static List<Device> Devices = new List<Device>
@@ -139,12 +152,46 @@ namespace IoPee.Data
                 Active = false,
                 DiaperId = 1,
                 Diaper = ModelData.Diapers.Where(d => d.Id == 1).FirstOrDefault(),
-                MacId = ModelData.Macs.Count + 1,
+                MacId = 1,
                 Mac = ModelData.Macs.Where(m => m.Id == 1).FirstOrDefault(),
                 BedId = 1,
-                Bed = ModelData.Sectors.Where(s => s.Id == 1).FirstOrDefault().Beds.Where(b => b.Id == 1).FirstOrDefault()
-            }
-        };
+                Bed = ModelData.Sectors.Where(s => s.Id == 1).FirstOrDefault().Beds.Where(b => b.Id == 1).FirstOrDefault(),
+                LastChangeTime = DateTime.Now
+            },
 
+            new Device
+            {
+                Id = 2,
+                Name = "Dispositivo #2",
+                Humidity = 50,
+                Temperature = 3,
+                Enable = true,
+                Active = true,
+                DiaperId = 2,
+                Diaper = ModelData.Diapers.Where(d => d.Id == 2).FirstOrDefault(),
+                MacId = 2,
+                Mac = ModelData.Macs.Where(m => m.Id == 2).FirstOrDefault(),
+                BedId = 2,
+                Bed = ModelData.Sectors.Where(s => s.Id == 1).FirstOrDefault().Beds.Where(b => b.Id == 2).FirstOrDefault(),
+                LastChangeTime = DateTime.Now
+            },
+
+            new Device
+            {
+                Id = 3,
+                Name = "Dispositivo #3",
+                Humidity = 50,
+                Temperature = 3,
+                Enable = true,
+                Active = false,
+                DiaperId = 3,
+                Diaper = ModelData.Diapers.Where(d => d.Id == 3).FirstOrDefault(),
+                MacId = 3,
+                Mac = ModelData.Macs.Where(m => m.Id == 3).FirstOrDefault(),
+                BedId = 3,
+                Bed = ModelData.Sectors.Where(s => s.Id == 2).FirstOrDefault().Beds.Where(b => b.Id == 3).FirstOrDefault(),
+                LastChangeTime = DateTime.Now
+            },
+        };
     }
 }

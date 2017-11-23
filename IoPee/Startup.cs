@@ -1,4 +1,5 @@
-﻿using Microsoft.Owin;
+﻿using IoPee.Schedules;
+using Microsoft.Owin;
 using Owin;
 
 [assembly: OwinStartupAttribute(typeof(IoPee.Startup))]
@@ -9,6 +10,7 @@ namespace IoPee
         public void Configuration(IAppBuilder app)
         {
             ConfigureAuth(app);
+            new ChangeDeviceStatusScheduler();
         }
     }
 }

@@ -1,4 +1,6 @@
-﻿namespace IoPee.Entities
+﻿using System;
+
+namespace IoPee.Entities
 {
     public class Device
     {
@@ -14,5 +16,6 @@
         public Bed Bed { get; set; }
         public int MacId { get; set; }
         public Mac Mac { get; set; }
+        public DateTime LastChangeTime { get; set; }
     }
 }

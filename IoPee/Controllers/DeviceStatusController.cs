@@ -1,5 +1,6 @@
 ﻿using IoPee.Data;
 using IoPee.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web.Mvc;
@@ -14,6 +15,14 @@ namespace IoPee.Controllers
             var deviceList = new DeviceListViewModel();
             deviceList.Devices = GetDeviceList();
             return View(deviceList);
+        }
+
+        [HttpGet]
+        public JsonResult GetDeviceListJson()
+        {
+            var deviceList = new DeviceListViewModel();
+            deviceList.Devices = GetDeviceList();
+            return Json(deviceList, JsonRequestBehavior.AllowGet);
         }
 
         private List<DeviceViewModel> GetDeviceList()
@@ -36,11 +45,13 @@ namespace IoPee.Controllers
                     BedId = device.BedId,
                     BedName = device.Bed.Name,
                     MacId = device.Mac.Id,
-                    MacCode = device.Mac.Code
+                    MacCode = device.Mac.Code,
+                    LastChangeTime = device.LastChangeTime,
+                    LastChangeTimeFormat = String.Format("{0:HH:mm}", device.LastChangeTime)
                 });
             }
-            deviceList.OrderBy(d => !d.Active);
-            return deviceList;
+            var sortedList = deviceList.OrderBy(d => !d.Active).ToList();
+            return sortedList;
         }
     }
 }

@@ -3,9 +3,7 @@ using IoPee.Entities;
 using IoPee.Models;
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
-using System.Threading.Tasks;
 using System.Web.Mvc;
 
 namespace IoPee.Controllers
@@ -33,7 +31,7 @@ namespace IoPee.Controllers
             }
             catch(Exception e)
             {
-                Debug.WriteLine(e.Message);
+                Console.WriteLine("An exception has been thrown: " + e.Message);
             }
             return View();
         }
@@ -76,7 +74,8 @@ namespace IoPee.Controllers
                     MacId = ModelData.Macs.Where(m => m.Id != 0).ToList().Count + 1,
                     Mac = ModelData.Macs.Where(m => m.Code == model.MacCode).FirstOrDefault(),
                     BedId = (int)model.BedId,
-                    Bed = ModelData.Sectors.Where(s => s.Id == (int)model.SectorId).FirstOrDefault().Beds.Where(b => b.Id == (int)model.BedId).FirstOrDefault()
+                    Bed = ModelData.Sectors.Where(s => s.Id == (int)model.SectorId).FirstOrDefault().Beds.Where(b => b.Id == (int)model.BedId).FirstOrDefault(),
+                    LastChangeTime = DateTime.Now
                 };
 
                 ModelData.Macs.Where(m => m.Code == model.MacCode).FirstOrDefault().Id = ModelData.Macs.Where(m => m.Id != 0).ToList().Count + 1;
@@ -87,7 +86,7 @@ namespace IoPee.Controllers
             }
             catch (Exception e)
             {
-                Debug.WriteLine(e.Message);
+                Console.WriteLine("An exception has been thrown: " + e.Message);
             }
             return View(model);
         }
@@ -140,7 +139,6 @@ namespace IoPee.Controllers
             return items;
         }
 
-
         private List<DeviceViewModel> GetDeviceList()
         {
             var deviceList = new List<DeviceViewModel>();
@@ -161,7 +159,8 @@ namespace IoPee.Controllers
                     BedId = device.BedId,
                     BedName = device.Bed.Name,
                     MacId = device.Mac.Id,
-                    MacCode = device.Mac.Code
+                    MacCode = device.Mac.Code,
+                    LastChangeTime = device.LastChangeTime
                 });
             }
             return deviceList;

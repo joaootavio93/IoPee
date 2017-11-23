@@ -23,7 +23,8 @@
             <th>Setor/ala</th>
             <th>Leito</th>
             <th>MAC</th>
-            <th>Disponível</th>
+            <th>Última troca</th>
+            <th>Disponível?</th>
         </tr>
     </thead>
     <tbody>
@@ -37,6 +38,7 @@
                 <td>@item.SectorName</td>
                 <td>@item.BedName</td>
                 <td>@item.MacCode</td>
+                <td>@String.Format("{0:HH:mm}", @item.LastChangeTime)</td>
                 <td>@(item.Enable ? "Sim" : "Não")</td>
             </tr>
         }

@@ -8,7 +8,7 @@
 
 @model IoPee.Models.DeviceListViewModel
 
-<div class="row">
+<div id="devicesList" class="row">
     @foreach (var item in @Model.Devices)
     {
         if (!@item.Active)
@@ -17,30 +17,94 @@
                 <div class="panel panel-success">
                     <div class="panel-heading">
                         @item.Name
-                        <img src="~/Assets/happy.png" style="float: right" />
+                        <img src="/Assets/happy.png" style="float: right" />
                     </div>
                     <div class="panel-body">
                         <p>Setor/ala: <strong>@item.SectorName</strong></p>
                         <p>Leito: <strong>@item.BedName</strong></p>
+                        <p>Última troca: <strong>@String.Format("{0:HH:mm}", @item.LastChangeTime)</strong></p>
                     </div>
                 </div>
             </div>
         }
         else
         {
-            <div class="col-md-3">
-                <div class="panel panel-danger">
-                    <div class="panel-heading">
-                        @item.Name
-                        <img src="~/Assets/sad.png" style="float: right" />
-                    </div>
-                    <div class="panel-body">
-                        <p>Setor/ala: <strong>@item.SectorName</strong></p>
-                        <p>Leito: <strong>@item.BedName</strong></p>
+            <div class="blink_me">
+                <div class="col-md-3">
+                    <div class="panel panel-danger">
+                        <div class="panel-heading">
+                            @item.Name
+                            <img src="~/Assets/sad.png" style="float: right" />
+                        </div>
+                        <div class="panel-body">
+                            <p>Setor/ala: <strong>@item.SectorName</strong></p>
+                            <p>Leito: <strong>@item.BedName</strong></p>
+                            <p>Última troca: <strong>@String.Format("{0:HH:mm}", @item.LastChangeTime)</strong></p>
+                        </div>
                     </div>
                 </div>
             </div>
         }
-
     }
 </div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+
+    <script type="text/javascript">
+        setInterval(function () {
+            $.ajax({
+                type: 'GET',
+                //url: '@Url.Action("Index", "DeviceStatus")',
+                url: '/DeviceStatus/GetDeviceListJson',
+                data: {},
+                dataType: 'json',
+                success: function (resultData) {
+                    $("#devicesList").html("");
+                    var devicesAlerts = "";
+                    for (var i = 0; i < resultData.Devices.length; i++) {
+                        devicesAlerts +=
+                        "<div class='col-md-3'>";
+                        if (!resultData.Devices[i].Active)
+                            devicesAlerts += "<div class='panel panel-success'>";
+                        else
+                        {
+                            devicesAlerts += "<div class='blink_me'>"
+                            + "<div class='panel panel-danger'>";
+                        }
+                            
+                        devicesAlerts +=
+                        "<div class='panel-heading'>"
+                        + resultData.Devices[i].Name;
+                        if (!resultData.Devices[i].Active)
+                            devicesAlerts += "<img src='/Assets/happy.png' style='float: right' />";
+                        else
+                            devicesAlerts += "<img src='/Assets/sad.png' style='float: right' />";
+                        devicesAlerts +=
+                        "</div>"
+                        + "<div class='panel-body'>"
+                        + "<p>Setor/ala: <strong>" + resultData.Devices[i].SectorName + "</strong></p>"
+                        + "<p>Leito: <strong>" + resultData.Devices[i].BedName + "</strong></p>"
+                        + "<p>Última troca: <strong>" + resultData.Devices[i].LastChangeTimeFormat + "</strong></p>"
+                        + "</div>"
+                        + "</div>"
+                        + "</div>";
+                        if (resultData.Devices[i].Active)
+                            devicesAlerts += "</div>";
+                    }
+                    $("#devicesList").html(devicesAlerts);
+                },
+                error: function (resultData) {
+                    console.log("error");
+                }
+            });
+        }, 10000);
+
+        //function blinker() {
+        //    $('.blink_me').fadeOut(3000);
+        //    $('.blink_me').fadeIn(3000);
+        //}
+
+        //setInterval(blinker, 3500);
+    </script>
+}
