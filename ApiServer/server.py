@@ -1,4 +1,4 @@
-from flask import Flask, url_for, request, jsonify, abort, make_response
+from flask import Flask, request, jsonify, abort, make_response
 import time
 import datetime
 
@@ -12,13 +12,22 @@ def api_root():
 
 @app.route('/iopee/api/v1.0/devices', methods=['GET'])
 def get_devices():
-    return jsonify({'devices': devices})
+    devices_with_current_time = []
+    ts = time.time()
+    current_time = datetime.datetime.fromtimestamp(ts).strftime('%d-%m-%Y %H:%M:%S')
+    for device in devices:
+        device["CurrentTime"] = current_time
+        devices_with_current_time.append(device)
+    return jsonify({'devices': devices_with_current_time})
 
 @app.route('/iopee/api/v1.0/devices/<int:device_id>', methods=['GET'])
 def get_device(device_id):
     device = [device for device in devices if device['id'] == device_id]
+    ts = time.time()
+    current_time = datetime.datetime.fromtimestamp(ts).strftime('%d-%m-%Y %H:%M:%S')
     if len(device) == 0:
         abort(404)
+    device[0]["CurrentTime"] = current_time
     return jsonify({'device': device[0]})
 
 @app.errorhandler(404)
@@ -37,14 +46,15 @@ def create_device():
         'MacId': mac,
         'Humidity': "none",
         'Temperature': "none",
-        'timestamp': datetime.datetime.fromtimestamp(ts).strftime('%d-%m-%Y %H:%M:%S')
+        'LastUpdate': datetime.datetime.fromtimestamp(ts).strftime('%d-%m-%Y %H:%M:%S'),
+        'LastChange': "none"
     }
     devices.append(device)
     return jsonify({'device': device}), 201
 
 
 @app.route('/iopee/api/v1.0/devices/<int:device_id>', methods = ['POST'])
-def api_message(device_id):
+def api_update(device_id):
     if request.headers['Content-Type'] == 'text/plain':
         ts = time.time()
         text_file =  open("data.txt", "a")
@@ -55,7 +65,27 @@ def api_message(device_id):
         if len(device) == 0:
             abort(404)
         device[0]["Humidity"] = request.data.decode("utf-8").split(",")[0]
-        device[0]["timestamp"] = datetime.datetime.fromtimestamp(ts).strftime('%d-%m-%Y %H:%M:%S')
+        device[0]["LastUpdate"] = datetime.datetime.fromtimestamp(ts).strftime('%d-%m-%Y %H:%M:%S')
+        return "Sent " + request.data.decode("utf-8") + ",'date':" + datetime.datetime.fromtimestamp(ts).strftime('%d-%m-%Y')+",'time':"+datetime.datetime.fromtimestamp(ts).strftime('%H:%M:%S')
+
+    else:
+        return "415 Unsupported Media Type"
+
+@app.route('/iopee/api/v1.0/devices/newdiaper/<int:device_id>', methods = ['POST'])
+def api_newdiaper(device_id):
+    if request.headers['Content-Type'] == 'text/plain':
+        ts = time.time()
+        current_time = datetime.datetime.fromtimestamp(ts).strftime('%d-%m-%Y %H:%M:%S')
+        text_file =  open("data.txt", "a")
+        text_file.write("diaper changed,"+request.data.decode("utf-8") +","+current_time+","+str(device_id)+"\n")
+        text_file.close()
+        device = [device for device in devices if device['id'] == device_id]
+        print(devices,device_id)
+        if len(device) == 0:
+            abort(404)
+        device[0]["Humidity"] = request.data.decode("utf-8").split(",")[0]
+        device[0]["LastUpdate"] = current_time
+        device[0]["LastChange"] = current_time
         return "Sent " + request.data.decode("utf-8") + ",'date':" + datetime.datetime.fromtimestamp(ts).strftime('%d-%m-%Y')+",'time':"+datetime.datetime.fromtimestamp(ts).strftime('%H:%M:%S')
 
     else:
