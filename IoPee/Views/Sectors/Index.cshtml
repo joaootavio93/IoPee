@@ -1,0 +1,35 @@
+﻿
+@{
+    ViewBag.Title = "Setores/Alas";
+}
+
+<div class="jumbotron">
+    <h1>Setores/Alas</h1>
+</div>
+
+<div>
+    <p><a href="@Url.Action("Register", "Sectors")" class="btn btn-primary btn-lg">Cadastrar</a></p>
+</div>
+
+@model IoPee.Models.SectorListViewModel
+
+<table class="table table-bordered">
+    <thead>
+        <tr>
+            <th>Nome</th>
+            <th>Descrição</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in @Model.Sectors)
+        {
+            <tr>
+                <td>@item.Name</td>
+                <th>@item.Description</th>
+                <th>
+                    <p><a href="@Url.Action("Index", "Beds", new { sectorId = @item.Id })" class="btn btn-primary">Leitos</a></p>
+                </th>
+            </tr>
+        }
+    </tbody>
+</table>

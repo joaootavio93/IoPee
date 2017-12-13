@@ -86,3 +86,12 @@ C:\Visual Studio 2015\Projects\IoPee\IoPee\bin\Microsoft.Owin.Security.Microsoft
 C:\Visual Studio 2015\Projects\IoPee\IoPee\obj\Release\IoPee.dll
 C:\Visual Studio 2015\Projects\IoPee\IoPee\obj\Release\IoPee.pdb
 C:\Visual Studio 2015\Projects\IoPee\IoPee\obj\Release\IoPee.csprojResolveAssemblyReference.cache
+C:\Visual Studio 2015\Projects\IoPee\IoPee\bin\Common.Logging.Core.dll
+C:\Visual Studio 2015\Projects\IoPee\IoPee\bin\Common.Logging.dll
+C:\Visual Studio 2015\Projects\IoPee\IoPee\bin\Quartz.dll
+C:\Visual Studio 2015\Projects\IoPee\IoPee\bin\Common.Logging.pdb
+C:\Visual Studio 2015\Projects\IoPee\IoPee\bin\Common.Logging.xml
+C:\Visual Studio 2015\Projects\IoPee\IoPee\bin\Common.Logging.Core.pdb
+C:\Visual Studio 2015\Projects\IoPee\IoPee\bin\Common.Logging.Core.xml
+C:\Visual Studio 2015\Projects\IoPee\IoPee\bin\Quartz.pdb
+C:\Visual Studio 2015\Projects\IoPee\IoPee\bin\Quartz.xml

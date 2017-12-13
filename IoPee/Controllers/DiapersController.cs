@@ -12,9 +12,9 @@ namespace IoPee.Controllers
         // GET: Devices
         public ActionResult Index()
         {
-            var diapersList = new DiaperListViewModel();
-            diapersList.Diapers = GetDiapersList();
-            return View(diapersList);
+            var diaperList = new DiaperListViewModel();
+            diaperList.Diapers = GetDiaperList();
+            return View(diaperList);
         }
 
         // GET: Register
@@ -50,7 +50,7 @@ namespace IoPee.Controllers
             return View(model);
         }
 
-        private List<DiaperViewModel> GetDiapersList()
+        private List<DiaperViewModel> GetDiaperList()
         {
             var diaperList = new List<DiaperViewModel>();
             foreach (var device in StaticData.Diapers)

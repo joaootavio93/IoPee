@@ -70,12 +70,31 @@ namespace IoPee.Models
         public string Brand { get; set; }
 
         [Required]
-        [Display(Name = "Humidade")]
+        [Display(Name = "Humidade mínima")]
         public int Humidity { get; set; }
 
         [Required]
-        [Display(Name = "Temperatura")]
+        [Display(Name = "Temperatura mínima")]
         public int Temperature { get; set; }
+    }
+
+    public class SectorViewModel
+    {
+        public int Id { get; set; }
+
+        [Display(Name = "Setor/Ala")]
+        public string Name { get; set; }
+
+        [Display(Name = "Descrição")]
+        public string Description { get; set; }
+    }
+
+    public class BedViewModel
+    {
+        public int Id { get; set; }
+
+        [Display(Name = "Setor/Ala")]
+        public string Name { get; set; }
     }
 
     public class DeviceListViewModel
@@ -86,5 +105,17 @@ namespace IoPee.Models
     public class DiaperListViewModel
     {
         public List<DiaperViewModel> Diapers = new List<DiaperViewModel>();
+    }
+
+    public class SectorListViewModel
+    {
+        public List<SectorViewModel> Sectors = new List<SectorViewModel>();
+    }
+
+    public class BedListViewModel
+    {
+        public int SectorId { get; set; }
+        public string SectorName { get; set; }
+        public List<BedViewModel> Beds = new List<BedViewModel>();
     }
 }

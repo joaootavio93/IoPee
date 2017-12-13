@@ -1,0 +1,29 @@
+﻿@{
+    ViewBag.Title = "Leitos";
+}
+
+@model IoPee.Models.BedListViewModel
+
+<div class="jumbotron">
+    <h1>Leitos do(a) @Model.SectorName</h1>
+</div>
+
+<div>
+    <p><a href="@Url.Action("Add", "Beds", new { sectorId = @Model.SectorId })" class="btn btn-primary btn-lg">Adicionar</a></p>
+</div>
+
+<table class="table table-bordered">
+    <thead>
+        <tr>
+            <th>Nome</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in @Model.Beds)
+        {
+            <tr>
+                <td>@item.Name</td>
+            </tr>
+        }
+    </tbody>
+</table>
