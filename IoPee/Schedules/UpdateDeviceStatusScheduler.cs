@@ -20,7 +20,7 @@ namespace IoPee.Schedules
 
                 ITrigger trigger = TriggerBuilder.Create()
                     .WithIdentity("UpdateDeviceStatusTrigger")
-                    .WithSimpleSchedule(s => s.WithIntervalInSeconds(5).RepeatForever())
+                    .WithSimpleSchedule(s => s.WithIntervalInSeconds(4).RepeatForever())
                     .StartAt(DateTime.Now)
                     .Build();
 

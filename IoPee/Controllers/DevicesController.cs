@@ -45,44 +45,6 @@ namespace IoPee.Controllers
             return View();
         }
 
-        public void GetDevicesRequest(string url)
-        {
-            HttpWebRequest request = (HttpWebRequest)WebRequest.Create(url);
-
-            WebResponse response = request.GetResponse();
-            using (Stream responseStream = response.GetResponseStream())
-            {
-                var json = new JavaScriptSerializer();
-                StreamReader reader = new StreamReader(responseStream, Encoding.UTF8);
-                string jsonStr = reader.ReadToEnd();
-                DeviceListJson deviceList = json.Deserialize<DeviceListJson>(jsonStr);
-                foreach(var device in deviceList.devices)
-                {
-                    if (Util.Macs.Where(m => m.Code == device.MacId).FirstOrDefault() == null)
-                        Util.Macs.Add(new Mac
-                        {
-                            Id = 0,
-                            ExternalId = int.Parse(device.id),
-                            Code = device.MacId
-                        });
-                }
-            }
-        }
-        
-        public void SetDeviceHumidityThresholhRequest(string baseAddress, int externalId, int humidity)
-        {
-            string address = baseAddress + externalId + "?humidity=" + humidity;
-            HttpWebRequest request = (HttpWebRequest)WebRequest.Create(address);
-
-            WebResponse response = request.GetResponse();
-            using (Stream responseStream = response.GetResponseStream())
-            {
-                var json = new JavaScriptSerializer();
-                StreamReader reader = new StreamReader(responseStream, Encoding.UTF8);
-                string jsonStr = reader.ReadToEnd();     
-            }
-        }
-
         [HttpPost]
         [AllowAnonymous]
         [ValidateAntiForgeryToken]
@@ -213,5 +175,44 @@ namespace IoPee.Controllers
 
             return Json(items, JsonRequestBehavior.AllowGet);
         }
+
+        public void GetDevicesRequest(string url)
+        {
+            HttpWebRequest request = (HttpWebRequest)WebRequest.Create(url);
+
+            WebResponse response = request.GetResponse();
+            using (Stream responseStream = response.GetResponseStream())
+            {
+                var json = new JavaScriptSerializer();
+                StreamReader reader = new StreamReader(responseStream, Encoding.UTF8);
+                string jsonStr = reader.ReadToEnd();
+                DeviceListJson deviceList = json.Deserialize<DeviceListJson>(jsonStr);
+                foreach (var device in deviceList.devices)
+                {
+                    if (Util.Macs.Where(m => m.Code == device.MacId).FirstOrDefault() == null)
+                        Util.Macs.Add(new Mac
+                        {
+                            Id = 0,
+                            ExternalId = int.Parse(device.id),
+                            Code = device.MacId
+                        });
+                }
+            }
+        }
+
+        public void SetDeviceHumidityThresholhRequest(string baseAddress, int externalId, int humidity)
+        {
+            string address = baseAddress + externalId + "?humidity=" + humidity;
+            HttpWebRequest request = (HttpWebRequest)WebRequest.Create(address);
+
+            WebResponse response = request.GetResponse();
+            using (Stream responseStream = response.GetResponseStream())
+            {
+                var json = new JavaScriptSerializer();
+                StreamReader reader = new StreamReader(responseStream, Encoding.UTF8);
+                string jsonStr = reader.ReadToEnd();
+            }
+        }
+
     }
 }

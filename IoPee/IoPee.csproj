@@ -226,7 +226,6 @@
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Controllers\SectorsController.cs" />
     <Compile Include="Controllers\UsersController.cs" />
-    <Compile Include="Controllers\WebApiController.cs" />
     <Compile Include="Data\DeviceJson.cs" />
     <Compile Include="Data\DeviceListJson.cs" />
     <Compile Include="Data\Util.cs" />
@@ -245,8 +244,6 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Schedules\ChangeDeviceStatusJob.cs" />
     <Compile Include="Schedules\ChangeDeviceStatusScheduler.cs" />
-    <Compile Include="Schedules\SendDeviceDataJob.cs" />
-    <Compile Include="Schedules\SendDeviceDataScheduler.cs" />
     <Compile Include="Schedules\UpdateDeviceStatusJob.cs" />
     <Compile Include="Schedules\UpdateDeviceStatusScheduler.cs" />
     <Compile Include="Startup.cs" />

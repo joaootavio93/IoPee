@@ -32,7 +32,7 @@ namespace IoPee.Controllers
             {
                 var sector = new Sector
                 {
-                    Id = Util.Diapers.Count + 1,
+                    Id = Util.Sectors.Count + 1,
                     Name = model.Name,
                     Description = model.Description
                 };

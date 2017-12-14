@@ -31,23 +31,16 @@ namespace IoPee.Schedules
                     if (deviceRegistered != null)
                     {
                         deviceRegistered.Humidity = int.Parse(device.Humidity);
+
                         bool lastStage = deviceRegistered.Active;
-                        int humidity = int.Parse(device.Humidity);
-                        int humidityPercent = Util.CalcHumidityPercentage(humidity);
-                        int diaperHumidityPercent = Util.CalcHumidityPercentage(deviceRegistered.Diaper.Humidity);
-                        Debug.WriteLine(humidity);
-                        Debug.WriteLine(humidityPercent);
-                        Debug.WriteLine(deviceRegistered.Diaper.Humidity);
-                        Debug.WriteLine(diaperHumidityPercent);
-                        Debug.WriteLine("\n\n");
-                        if (humidityPercent >= diaperHumidityPercent)
+
+                        if (deviceRegistered.Humidity <= deviceRegistered.Diaper.Humidity)
                             deviceRegistered.Active = true;
                         else
                             deviceRegistered.Active = false;
 
                         if (lastStage && !deviceRegistered.Active)
                             deviceRegistered.LastChangeTime = DateTime.Now;
-                            
                     }
                 }
             }
