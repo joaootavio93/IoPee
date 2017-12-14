@@ -5,16 +5,17 @@
 @model IoPee.Models.BedListViewModel
 
 <div class="jumbotron">
-    <h1>Leitos do(a) @Model.SectorName</h1>
+    <h1><img class="jumbotronImgs" src="/Assets/bed.png" /> Leitos do(a) @Model.SectorName</h1>
 </div>
 
 <div>
-    <p><a href="@Url.Action("Add", "Beds", new { sectorId = @Model.SectorId })" class="btn btn-primary btn-lg">Adicionar</a></p>
+    <p><a id="addBed" class="btn btn-primary btn-lg">Adicionar</a></p>
 </div>
 
 <table class="table table-bordered">
     <thead>
         <tr>
+            <th>Id</th>
             <th>Nome</th>
         </tr>
     </thead>
@@ -22,8 +23,33 @@
         @foreach (var item in @Model.Beds)
         {
             <tr>
+                <td>@item.Id</td>
                 <td>@item.Name</td>
             </tr>
         }
     </tbody>
 </table>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $('#addBed').click(function (e) {
+                var sectorId = @Model.SectorId;
+                $.ajax({
+                    type: 'GET',
+                    url: '/Beds/Add',
+                    data: {sectorId: sectorId},
+                    dataType: 'json',
+                    success: function (resultData) {
+                        window.location.reload();
+                    },
+                    error: function (resultData) {
+                        console.log("Erro to get JSON data.");
+                    }
+                });
+            });
+        });
+    </script>
+}

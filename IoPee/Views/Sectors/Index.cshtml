@@ -4,7 +4,7 @@
 }
 
 <div class="jumbotron">
-    <h1>Setores/Alas</h1>
+    <h1><img class="jumbotronImgs" src="/Assets/heart.png" /> Setores/Alas</h1>
 </div>
 
 <div>
@@ -16,19 +16,22 @@
 <table class="table table-bordered">
     <thead>
         <tr>
+            <th>Id</th>
             <th>Nome</th>
             <th>Descrição</th>
+            <th>Leitos</th>
         </tr>
     </thead>
     <tbody>
         @foreach (var item in @Model.Sectors)
         {
             <tr>
+                <td>@item.Id</td>
                 <td>@item.Name</td>
-                <th>@item.Description</th>
-                <th>
+                <td>@item.Description</td>
+                <td>
                     <p><a href="@Url.Action("Index", "Beds", new { sectorId = @item.Id })" class="btn btn-primary">Leitos</a></p>
-                </th>
+                </td>
             </tr>
         }
     </tbody>

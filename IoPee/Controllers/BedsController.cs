@@ -4,6 +4,7 @@ using IoPee.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Web.Mvc;
 
 namespace IoPee.Controllers
@@ -17,22 +18,27 @@ namespace IoPee.Controllers
             return View(bedList);
         }
 
-        public ActionResult Add(int sectorId)
+        [HttpGet]
+        public JsonResult Add(int sectorId)
         {
-            Register(sectorId);
-            var bedList = GetBedListBySectorId(sectorId);
-            return View(bedList);
+            if(Register(sectorId))
+            {
+                var bedList = GetBedListBySectorId(sectorId);
+                return Json(bedList, JsonRequestBehavior.AllowGet);
+            }
+            Response.StatusCode = (int)HttpStatusCode.BadRequest;
+            return Json(Response.StatusCode, JsonRequestBehavior.AllowGet);
         }
 
         private bool Register(int sectorId)
         {
             try
             {
-                var sector = StaticData.Sectors.Where(s => s.Id == sectorId).FirstOrDefault();
+                var sector = Util.Sectors.Where(s => s.Id == sectorId).FirstOrDefault();
                 if (sector.Beds == null)
                     sector.Beds = new List<Bed>();
                 int count = 0;
-                foreach (var sec in StaticData.Sectors)
+                foreach (var sec in Util.Sectors)
                     count += sec.Beds.Count;
                 count++;
                 sector.Beds.Add(new Bed
@@ -54,7 +60,7 @@ namespace IoPee.Controllers
         private BedListViewModel GetBedListBySectorId(int sectorId)
         {
             var bedList = new BedListViewModel();
-            var sector = StaticData.Sectors.Where(s => s.Id == sectorId).FirstOrDefault();
+            var sector = Util.Sectors.Where(s => s.Id == sectorId).FirstOrDefault();
 
             if(sector != null)
             {

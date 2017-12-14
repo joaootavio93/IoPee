@@ -28,20 +28,21 @@ namespace IoPee.Controllers
         private List<DeviceViewModel> GetDeviceList()
         {
             var deviceList = new List<DeviceViewModel>();
-            foreach (var device in StaticData.Devices.Where(d => d.Enable))
+            foreach (var device in Util.Devices.Where(d => d.Enable))
             {
                 deviceList.Add(new DeviceViewModel
                 {
                     Id = device.Id,
                     Name = device.Name,
                     Humidity = device.Humidity,
+                    HumidityPercent = Util.CalcHumidityPercentage(device.Humidity),
                     Temperature = device.Temperature,
                     Enable = device.Enable,
                     Active = device.Active,
                     DiaperId = device.DiaperId,
                     DiaperName = device.Diaper.Name,
                     SectorId = device.Bed.SectorId,
-                    SectorName = StaticData.Sectors.Where(s => s.Id == device.Bed.SectorId).FirstOrDefault().Name,
+                    SectorName = Util.Sectors.Where(s => s.Id == device.Bed.SectorId).FirstOrDefault().Name,
                     BedId = device.BedId,
                     BedName = device.Bed.Name,
                     MacId = device.Mac.Id,

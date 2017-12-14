@@ -1,4 +1,5 @@
-﻿using IoPee.Schedules;
+﻿using IoPee.Controllers;
+using IoPee.Schedules;
 using Microsoft.Owin;
 using Owin;
 
@@ -10,8 +11,10 @@ namespace IoPee
         public void Configuration(IAppBuilder app)
         {
             ConfigureAuth(app);
+            DevicesController controller = new DevicesController();
             //new ChangeDeviceStatusScheduler();
-            new SendDeviceDataScheduler();
+            //new SendDeviceDataScheduler();
+            new UpdateDeviceStatusScheduler();
         }
     }
 }

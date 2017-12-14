@@ -32,14 +32,14 @@ namespace IoPee.Controllers
             {
                 var diaper = new Diaper
                 {
-                    Id = StaticData.Diapers.Count + 1,
+                    Id = Util.Diapers.Count + 1,
                     Name = model.Name,
                     Brand = model.Brand,
-                    Humidity = model.Humidity,
+                    Humidity = Util.CalcHumidity(model.Humidity),
                     Temperature = model.Temperature,
                 };
 
-                StaticData.Diapers.Add(diaper);
+                Util.Diapers.Add(diaper);
 
                 return RedirectToAction("Index", "Diapers");
             }
@@ -53,7 +53,7 @@ namespace IoPee.Controllers
         private List<DiaperViewModel> GetDiaperList()
         {
             var diaperList = new List<DiaperViewModel>();
-            foreach (var device in StaticData.Diapers)
+            foreach (var device in Util.Diapers)
             {
                 diaperList.Add(new DiaperViewModel
                 {
@@ -61,6 +61,7 @@ namespace IoPee.Controllers
                     Name = device.Name,
                     Brand = device.Brand,
                     Humidity = device.Humidity,
+                    HumidityPercent = Util.CalcHumidityPercentage(device.Humidity),
                     Temperature = device.Temperature                    
                 });
             }

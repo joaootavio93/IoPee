@@ -1,15 +1,23 @@
 ﻿using IoPee.Data;
 using IoPee.Entities;
 using IoPee.Models;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
+using System.Net;
+using System.Text;
 using System.Web.Mvc;
+using System.Web.Script.Serialization;
 
 namespace IoPee.Controllers
 {
     public class DevicesController : Controller
     {
+        private readonly string devicesAddress = @"http://dmesquita.pythonanywhere.com/iopee/api/v1.0/devices";
+        private readonly string deviceAddress = @"http://dmesquita.pythonanywhere.com/iopee/api/v1.0/setconfig/";
+
         // GET: Devices
         public ActionResult Index()
         {
@@ -23,6 +31,7 @@ namespace IoPee.Controllers
         {
             try
             {
+                GetDevicesRequest(devicesAddress);
                 var device = new DeviceViewModel();
                 device.Diapers = GetDiapers();
                 device.Sectors = GetSectors();
@@ -36,6 +45,44 @@ namespace IoPee.Controllers
             return View();
         }
 
+        public void GetDevicesRequest(string url)
+        {
+            HttpWebRequest request = (HttpWebRequest)WebRequest.Create(url);
+
+            WebResponse response = request.GetResponse();
+            using (Stream responseStream = response.GetResponseStream())
+            {
+                var json = new JavaScriptSerializer();
+                StreamReader reader = new StreamReader(responseStream, Encoding.UTF8);
+                string jsonStr = reader.ReadToEnd();
+                DeviceListJson deviceList = json.Deserialize<DeviceListJson>(jsonStr);
+                foreach(var device in deviceList.devices)
+                {
+                    if (Util.Macs.Where(m => m.Code == device.MacId).FirstOrDefault() == null)
+                        Util.Macs.Add(new Mac
+                        {
+                            Id = 0,
+                            ExternalId = int.Parse(device.id),
+                            Code = device.MacId
+                        });
+                }
+            }
+        }
+        
+        public void SetDeviceHumidityThresholhRequest(string baseAddress, int externalId, int humidity)
+        {
+            string address = baseAddress + externalId + "?humidity=" + humidity;
+            HttpWebRequest request = (HttpWebRequest)WebRequest.Create(address);
+
+            WebResponse response = request.GetResponse();
+            using (Stream responseStream = response.GetResponseStream())
+            {
+                var json = new JavaScriptSerializer();
+                StreamReader reader = new StreamReader(responseStream, Encoding.UTF8);
+                string jsonStr = reader.ReadToEnd();     
+            }
+        }
+
         [HttpPost]
         [AllowAnonymous]
         [ValidateAntiForgeryToken]
@@ -45,24 +92,25 @@ namespace IoPee.Controllers
             {
                 var device = new Device
                 {
-                    Id = StaticData.Devices.Count + 1,
+                    Id = Util.Devices.Count + 1,
                     Name = model.Name,
-                    Humidity = 0,
+                    Humidity = (int)Util.MaxHumidity,
                     Temperature = 0,
                     Enable = true,
                     Active = false,
                     DiaperId = (int)model.DiaperId,
-                    Diaper = StaticData.Diapers.Where(d => d.Id == (int)model.DiaperId).FirstOrDefault(),
-                    MacId = StaticData.Macs.Where(m => m.Id != 0).ToList().Count + 1,
-                    Mac = StaticData.Macs.Where(m => m.Code == model.MacCode).FirstOrDefault(),
+                    Diaper = Util.Diapers.Where(d => d.Id == model.DiaperId).FirstOrDefault(),
+                    MacId = Util.Macs.Where(m => m.Id != 0).ToList().Count + 1,
+                    Mac = Util.Macs.Where(m => m.Code == model.MacCode).FirstOrDefault(),
                     BedId = (int)model.BedId,
-                    Bed = StaticData.Sectors.Where(s => s.Id == (int)model.SectorId).FirstOrDefault().Beds.Where(b => b.Id == (int)model.BedId).FirstOrDefault(),
+                    Bed = Util.Sectors.Where(s => s.Id == model.SectorId).FirstOrDefault().Beds.Where(b => b.Id == model.BedId).FirstOrDefault(),
                     LastChangeTime = DateTime.Now
                 };
 
-                StaticData.Macs.Where(m => m.Code == model.MacCode).FirstOrDefault().Id = StaticData.Macs.Where(m => m.Id != 0).ToList().Count + 1;
+                Util.Macs.Where(m => m.Code == model.MacCode).FirstOrDefault().Id = Util.Macs.Where(m => m.Id != 0).ToList().Count + 1;      
+                Util.Devices.Add(device);
 
-                StaticData.Devices.Add(device);
+                SetDeviceHumidityThresholhRequest(deviceAddress, device.Mac.ExternalId, device.Diaper.Humidity);
 
                 return RedirectToAction("Index", "Devices");
             }
@@ -77,7 +125,7 @@ namespace IoPee.Controllers
         {
             var items = new List<SelectListItem>();
 
-            foreach(var diaper in StaticData.Diapers)
+            foreach(var diaper in Util.Diapers)
             {
                 items.Add(new SelectListItem
                 {
@@ -93,7 +141,7 @@ namespace IoPee.Controllers
         {
             var items = new List<SelectListItem>();
 
-            foreach (var sector in StaticData.Sectors)
+            foreach (var sector in Util.Sectors)
             {
                 items.Add(new SelectListItem
                 {
@@ -109,7 +157,7 @@ namespace IoPee.Controllers
         {
             var items = new List<SelectListItem>();
 
-            foreach (var mac in StaticData.Macs.Where(m => m.Id == 0).ToList())
+            foreach (var mac in Util.Macs.Where(m => m.Id == 0).ToList())
             {
                 items.Add(new SelectListItem
                 {
@@ -124,7 +172,7 @@ namespace IoPee.Controllers
         private List<DeviceViewModel> GetDeviceList()
         {
             var deviceList = new List<DeviceViewModel>();
-            foreach(var device in StaticData.Devices)
+            foreach(var device in Util.Devices)
             {
                 deviceList.Add(new DeviceViewModel
                 {
@@ -137,7 +185,7 @@ namespace IoPee.Controllers
                     DiaperId = device.DiaperId,
                     DiaperName = device.Diaper.Name,
                     SectorId = device.Bed.SectorId,
-                    SectorName = StaticData.Sectors.Where(s => s.Id == device.Bed.SectorId).FirstOrDefault().Name,
+                    SectorName = Util.Sectors.Where(s => s.Id == device.Bed.SectorId).FirstOrDefault().Name,
                     BedId = device.BedId,
                     BedName = device.Bed.Name,
                     MacId = device.Mac.Id,
@@ -151,7 +199,7 @@ namespace IoPee.Controllers
         [AcceptVerbs(HttpVerbs.Get)]
         public JsonResult GetBedsBySector(string sectorId)
         {
-            var sector = Data.StaticData.Sectors.Where(s => s.Id == int.Parse(sectorId)).FirstOrDefault();
+            var sector = Data.Util.Sectors.Where(s => s.Id == int.Parse(sectorId)).FirstOrDefault();
             var items = new List<SelectListItem>();
 
             foreach (var bed in sector.Beds)

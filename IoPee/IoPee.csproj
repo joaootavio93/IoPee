@@ -227,7 +227,9 @@
     <Compile Include="Controllers\SectorsController.cs" />
     <Compile Include="Controllers\UsersController.cs" />
     <Compile Include="Controllers\WebApiController.cs" />
-    <Compile Include="Data\StaticData.cs" />
+    <Compile Include="Data\DeviceJson.cs" />
+    <Compile Include="Data\DeviceListJson.cs" />
+    <Compile Include="Data\Util.cs" />
     <Compile Include="Entities\Bed.cs" />
     <Compile Include="Entities\Device.cs" />
     <Compile Include="Entities\Diaper.cs" />
@@ -245,13 +247,20 @@
     <Compile Include="Schedules\ChangeDeviceStatusScheduler.cs" />
     <Compile Include="Schedules\SendDeviceDataJob.cs" />
     <Compile Include="Schedules\SendDeviceDataScheduler.cs" />
+    <Compile Include="Schedules\UpdateDeviceStatusJob.cs" />
+    <Compile Include="Schedules\UpdateDeviceStatusScheduler.cs" />
     <Compile Include="Startup.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Assets\alert.mp3" />
+    <Content Include="Assets\bed.png" />
+    <Content Include="Assets\diaper.png" />
     <Content Include="Assets\happy.png" />
+    <Content Include="Assets\heart.png" />
+    <Content Include="Assets\humidity.png" />
     <Content Include="Assets\icon.png" />
     <Content Include="Assets\sad.png" />
+    <Content Include="Assets\status.png" />
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="favicon.ico" />

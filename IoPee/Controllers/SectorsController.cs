@@ -32,12 +32,12 @@ namespace IoPee.Controllers
             {
                 var sector = new Sector
                 {
-                    Id = StaticData.Diapers.Count + 1,
+                    Id = Util.Diapers.Count + 1,
                     Name = model.Name,
                     Description = model.Description
                 };
 
-                StaticData.Sectors.Add(sector);
+                Util.Sectors.Add(sector);
 
                 return RedirectToAction("Index", "Sectors");
             }
@@ -51,7 +51,7 @@ namespace IoPee.Controllers
         private List<SectorViewModel> GetSectorList()
         {
             var sectorList = new List<SectorViewModel>();
-            foreach (var sector in StaticData.Sectors)
+            foreach (var sector in Util.Sectors)
             {
                 sectorList.Add(new SectorViewModel
                 {

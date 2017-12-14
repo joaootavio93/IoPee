@@ -14,6 +14,8 @@ namespace IoPee.Models
 
         public int Humidity { get; set; }
 
+        public int HumidityPercent { get; set; }
+
         public int Temperature { get; set; }
 
         public bool Enable { get; set; }
@@ -70,8 +72,11 @@ namespace IoPee.Models
         public string Brand { get; set; }
 
         [Required]
-        [Display(Name = "Humidade mínima")]
+        [Display(Name = "Umidade mínima (%)")]
         public int Humidity { get; set; }
+
+        [Display(Name = "Umidade mínima (%)")]
+        public int HumidityPercent { get; set; }
 
         [Required]
         [Display(Name = "Temperatura mínima")]
@@ -82,9 +87,11 @@ namespace IoPee.Models
     {
         public int Id { get; set; }
 
+        [Required]
         [Display(Name = "Setor/Ala")]
         public string Name { get; set; }
 
+        [Required]
         [Display(Name = "Descrição")]
         public string Description { get; set; }
     }
@@ -93,6 +100,7 @@ namespace IoPee.Models
     {
         public int Id { get; set; }
 
+        [Required]
         [Display(Name = "Setor/Ala")]
         public string Name { get; set; }
     }

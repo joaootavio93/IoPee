@@ -1,10 +1,13 @@
 ﻿using IoPee.Entities;
+using System;
 using System.Collections.Generic;
 
 namespace IoPee.Data
 {
-    public static class StaticData
+    public static class Util
     {
+        public readonly static double MaxHumidity = 978.0; 
+
         public static List<Diaper> Diapers = new List<Diaper>
         {
             //new Diaper
@@ -194,5 +197,20 @@ namespace IoPee.Data
             //    LastChangeTime = DateTime.Now
             //}
         };
+
+        public static int CalcHumidityPercentage(int humidity)
+        {
+            return (int)Math.Ceiling(100 * (MaxHumidity - humidity) / MaxHumidity);
+        }
+
+        public static int CalcHumidityPercentageNoInvert(int humidity)
+        {
+            return (int)Math.Ceiling(100 * humidity / MaxHumidity);
+        }
+
+        public static int CalcHumidity(int humidityPercent)
+        {
+            return (int)((double)humidityPercent / 100 * MaxHumidity);
+        }
     }
 }

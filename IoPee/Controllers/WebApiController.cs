@@ -12,8 +12,8 @@ namespace IoPee.Controllers
         {
             try
             {
-                if (StaticData.Macs.Where(m => m.Code == mac).ToList().Count == 0)
-                    StaticData.Macs.Add(new Entities.Mac
+                if (Util.Macs.Where(m => m.Code == mac).ToList().Count == 0)
+                    Util.Macs.Add(new Entities.Mac
                     {
                         Id = 0,
                         Code = mac
@@ -33,7 +33,7 @@ namespace IoPee.Controllers
         {
             try
             {
-                var device = StaticData.Devices.Where(d => d.Mac.Code == mac && d.Mac.Id > 0).FirstOrDefault();
+                var device = Util.Devices.Where(d => d.Mac.Code == mac && d.Mac.Id > 0).FirstOrDefault();
                 
                 if(device != null)
                 {

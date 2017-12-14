@@ -3,12 +3,16 @@
 }
 
 <div class="jumbotron">
-    <h1>Status</h1>
+    <h1><img class="jumbotronImgs" src="/Assets/status.png" /> Status</h1>
 </div>
 
 @model IoPee.Models.DeviceListViewModel
 
 <div id="devicesList" class="row">
+    @if (@Model.Devices.Count == 0)
+    {
+        <p id="noDevices">Não encontramos nenhum dispositivo cadastrado. Cadastre pelo menos um sensor de umidade de fralda para visualizar o status.</p>
+    }
     @foreach (var item in @Model.Devices)
     {
         if (!@item.Active)
@@ -22,7 +26,7 @@
                     <div class="panel-body">
                         <p>Setor/ala: <strong>@item.SectorName</strong></p>
                         <p>Leito: <strong>@item.BedName</strong></p>
-                        <p>Humidade agora: <strong>@item.Humidity</strong></p>
+                        <p>Umidade agora: <strong>@item.HumidityPercent%</strong></p>
                         <p>Última troca: <strong>@String.Format("{0:HH:mm}", @item.LastChangeTime)</strong></p>
                     </div>
                 </div>
@@ -40,7 +44,7 @@
                         <div class="panel-body">
                             <p>Setor/ala: <strong>@item.SectorName</strong></p>
                             <p>Leito: <strong>@item.BedName</strong></p>
-                            <p>Humidade agora: <strong>@item.Humidity</strong></p>
+                            <p>Umidade agora: <strong>@item.HumidityPercent%</strong></p>
                             <p>Última troca: <strong>@String.Format("{0:HH:mm}", @item.LastChangeTime)</strong></p>
                         </div>
                     </div>
@@ -60,56 +64,64 @@
                 url: '/DeviceStatus/GetDeviceListJson',
                 data: {},
                 dataType: 'json',
-                success: function (resultData) {
+                success: function (resultData)
+                {
                     $("#devicesList").html("");
                     var devicesAlerts = "";
                     var alertExists = false;
-                    for (var i = 0; i < resultData.Devices.length; i++) {
-                        devicesAlerts +=
-                        "<div class='col-md-3'>";
-                        if (!resultData.Devices[i].Active)
-                            devicesAlerts += "<div class='panel panel-success'>";
-                        else
-                        {
-                            devicesAlerts += "<div class='blink_me'>"
-                            + "<div class='panel panel-danger'>";
-                            alertExists = true;
+                    if (resultData.Devices.length > 0)
+                    {
+                        for (var i = 0; i < resultData.Devices.length; i++) {
+                            devicesAlerts +=
+                            "<div class='col-md-3'>";
+                            if (!resultData.Devices[i].Active)
+                                devicesAlerts += "<div class='panel panel-success'>";
+                            else {
+                                devicesAlerts += "<div class='blink_me'>"
+                                + "<div class='panel panel-danger'>";
+                                alertExists = true;
+                            }
+
+                            devicesAlerts +=
+                            "<div class='panel-heading'>"
+                            + resultData.Devices[i].Name;
+                            if (!resultData.Devices[i].Active)
+                                devicesAlerts += "<img src='/Assets/happy.png' style='float: right' />";
+                            else
+                                devicesAlerts += "<img src='/Assets/sad.png' style='float: right' />";
+                            devicesAlerts +=
+                            "</div>"
+                            + "<div class='panel-body'>"
+                            + "<p>Setor/ala: <strong>" + resultData.Devices[i].SectorName + "</strong></p>"
+                            + "<p>Leito: <strong>" + resultData.Devices[i].BedName + "</strong></p>"
+                            + "<p>Umidade agora: <strong>" + resultData.Devices[i].HumidityPercent + "%</strong></p>"
+                            + "<p>Última troca: <strong>" + resultData.Devices[i].LastChangeTimeFormat + "</strong></p>"
+                            + "</div>"
+                            + "</div>"
+                            + "</div>";
+                            if (resultData.Devices[i].Active)
+                                devicesAlerts += "</div>";
                         }
+                        $("#devicesList").html(devicesAlerts);
 
-                        devicesAlerts +=
-                        "<div class='panel-heading'>"
-                        + resultData.Devices[i].Name;
-                        if (!resultData.Devices[i].Active)
-                            devicesAlerts += "<img src='/Assets/happy.png' style='float: right' />";
-                        else
-                            devicesAlerts += "<img src='/Assets/sad.png' style='float: right' />";
-                        devicesAlerts +=
-                        "</div>"
-                        + "<div class='panel-body'>"
-                        + "<p>Setor/ala: <strong>" + resultData.Devices[i].SectorName + "</strong></p>"
-                        + "<p>Leito: <strong>" + resultData.Devices[i].BedName + "</strong></p>"
-                        + "<p>Humidade agora: <strong>" + resultData.Devices[i].Humidity + "</strong></p>"
-                        + "<p>Última troca: <strong>" + resultData.Devices[i].LastChangeTimeFormat + "</strong></p>"
-                        + "</div>"
-                        + "</div>"
-                        + "</div>";
-                        if (resultData.Devices[i].Active)
-                            devicesAlerts += "</div>";
+                        if (alertExists) {
+                            var audio = new Audio('/Assets/alert.mp3');
+                            audio.play();
+                            document.getElementById("devicesList").focus();
+                        }
                     }
-                    $("#devicesList").html(devicesAlerts);
-
-                    if (alertExists) {
-                        var audio = new Audio('/Assets/alert.mp3');
-                        audio.play();
-                        document.getElementById("devicesList").focus();
+                    else
+                    {
+                        $("#devicesList").html("<p id='noDevices'>Não encontramos nenhum dispositivo cadastrado. Cadastre pelo menos um sensor de umidade de fralda para visualizar o status.</p>");
                     }
-                        
                 },
-                error: function (resultData) {
+                error: function (resultData)
+                {
                     console.log("Erro to get JSON data.");
+                    $("#devicesList").html("<p id='noDevices'>Ocorreu um problema ao tentar recuperar o status dos dispositivos. Por favor, tente novamente mais tarde ou entre em contato com os administradores do sistema.</p>");
                 }
             });
-        }, 12000);
+        }, 5000);
 
         //function blinker() {
         //    $('.blink_me').fadeOut(3000);

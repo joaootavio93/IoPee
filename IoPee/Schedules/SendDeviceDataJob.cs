@@ -11,10 +11,10 @@ namespace IoPee.Schedules
         public void Execute(IJobExecutionContext context)
         {
             var random = new Random();
-            var devicesCount = StaticData.Devices.ToList().Count;
+            var devicesCount = Util.Devices.ToList().Count;
 
             int index = random.Next(0, devicesCount + 1);
-            string sortedMac = StaticData.Devices.ToList().ElementAt(index).Mac.Code;
+            string sortedMac = Util.Devices.ToList().ElementAt(index).Mac.Code;
             int sortedHumidity = random.Next(875, 1000);
 
             var webApi = new WebApiController();

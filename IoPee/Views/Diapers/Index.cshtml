@@ -3,7 +3,7 @@
 }
 
 <div class="jumbotron">
-    <h1>Fraldas</h1>
+    <h1><img class="jumbotronImgs" src="/Assets/diaper.png" /> Fraldas</h1>
 </div>
 
 <div>
@@ -15,9 +15,10 @@
 <table class="table table-bordered">
     <thead>
         <tr>
+            <th>Id</th>
             <th>Nome</th>
             <th>Marca</th>
-            <th>Humidade mínima</th>
+            <th>Umidade mínima</th>
             <th>Temperatura mínima</th>
         </tr>
     </thead>
@@ -25,9 +26,10 @@
         @foreach (var item in @Model.Diapers)
         {
             <tr>
+                <td>@item.Id</td>
                 <td>@item.Name</td>
                 <td>@item.Brand</td>
-                <td>@item.Humidity</td>
+                <td>@item.HumidityPercent%</td>
                 <td>@item.Temperature</td>              
             </tr>
         }
