@@ -16,6 +16,8 @@ namespace IoPee.Models
 
         public int HumidityPercent { get; set; }
 
+        public int DiaperHumidityPercent { get; set; }
+
         public int Temperature { get; set; }
 
         public bool Enable { get; set; }

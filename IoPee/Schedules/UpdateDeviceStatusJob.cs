@@ -16,6 +16,7 @@ namespace IoPee.Schedules
 
         public void Execute(IJobExecutionContext context)
         {
+            //Test();
             HttpWebRequest request = (HttpWebRequest)WebRequest.Create(devicesAddress);
 
             WebResponse response = request.GetResponse();
@@ -32,6 +33,10 @@ namespace IoPee.Schedules
                     {
                         deviceRegistered.Humidity = int.Parse(device.Humidity);
 
+                        Debug.WriteLine("Current Humidity: " + deviceRegistered.Humidity);
+                        Debug.WriteLine("Diaper Humidity: " + deviceRegistered.Diaper.Humidity);
+                        Debug.WriteLine("Is current humidity lower than diaper humidity? If yes, device is actived. Otherwise, device is inactived!");
+
                         bool lastStage = deviceRegistered.Active;
 
                         if (deviceRegistered.Humidity <= deviceRegistered.Diaper.Humidity)
@@ -43,6 +48,29 @@ namespace IoPee.Schedules
                             deviceRegistered.LastChangeTime = DateTime.Now;
                     }
                 }
+            }
+        }
+
+        public void Test()
+        {
+            var deviceRegistered = Util.Devices.Where(d => d.Mac.Code == "00:00:00:00:00:00").FirstOrDefault();
+            if (deviceRegistered != null)
+            {
+                deviceRegistered.Humidity = 600;
+
+                bool lastStage = deviceRegistered.Active;
+
+                Debug.WriteLine("Current Humidity: " + deviceRegistered.Humidity);
+                Debug.WriteLine("Diaper Humidity: " + deviceRegistered.Diaper.Humidity);
+                Debug.WriteLine("Is current humidity lower than diaper humidity? If yes, device is actived. Otherwise, device is inactived!");
+
+                if (deviceRegistered.Humidity <= deviceRegistered.Diaper.Humidity)
+                    deviceRegistered.Active = true;
+                else
+                    deviceRegistered.Active = false;
+
+                if (lastStage && !deviceRegistered.Active)
+                    deviceRegistered.LastChangeTime = DateTime.Now;
             }
         }
     }

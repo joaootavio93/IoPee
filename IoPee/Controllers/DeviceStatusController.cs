@@ -36,6 +36,7 @@ namespace IoPee.Controllers
                     Name = device.Name,
                     Humidity = device.Humidity,
                     HumidityPercent = Util.CalcHumidityPercentage(device.Humidity),
+                    DiaperHumidityPercent = Util.CalcHumidityPercentage(device.Diaper.Humidity),
                     Temperature = device.Temperature,
                     Enable = device.Enable,
                     Active = device.Active,

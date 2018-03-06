@@ -39,7 +39,11 @@ namespace IoPee.Controllers
                     sector.Beds = new List<Bed>();
                 int count = 0;
                 foreach (var sec in Util.Sectors)
-                    count += sec.Beds.Count;
+                {
+                    if(sec.Beds != null)
+                        count += sec.Beds.Count;
+                }
+                    
                 count++;
                 sector.Beds.Add(new Bed
                 {

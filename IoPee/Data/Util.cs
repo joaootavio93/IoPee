@@ -11,12 +11,12 @@ namespace IoPee.Data
         public static List<Sector> Sectors = new List<Sector>();
         public static List<Mac> Macs = new List<Mac>()
         {
-            //new Mac
-            //{
-            //    Id = 0,
-            //    Code = "teste",
-            //    ExternalId = 1
-            //}
+            new Mac
+            {
+                Id = 0,
+                Code = "00:00:00:00:00:00",
+                ExternalId = 1
+            }
         };
 
         public static List<Device> Devices = new List<Device>();

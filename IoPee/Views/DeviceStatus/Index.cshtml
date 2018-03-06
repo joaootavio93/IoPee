@@ -27,6 +27,7 @@
                         <p>Setor/ala: <strong>@item.SectorName</strong></p>
                         <p>Leito: <strong>@item.BedName</strong></p>
                         <p>Umidade agora: <strong>@item.HumidityPercent%</strong></p>
+                        <p>Umidade limite da fralda: <strong>@item.DiaperHumidityPercent%</strong></p>
                         <p>Última troca: <strong>@String.Format("{0:HH:mm}", @item.LastChangeTime)</strong></p>
                     </div>
                 </div>
@@ -45,6 +46,7 @@
                             <p>Setor/ala: <strong>@item.SectorName</strong></p>
                             <p>Leito: <strong>@item.BedName</strong></p>
                             <p>Umidade agora: <strong>@item.HumidityPercent%</strong></p>
+                            <p>Umidade limite da fralda: <strong>@item.DiaperHumidityPercent%</strong></p>
                             <p>Última troca: <strong>@String.Format("{0:HH:mm}", @item.LastChangeTime)</strong></p>
                         </div>
                     </div>
@@ -95,6 +97,7 @@
                             + "<p>Setor/ala: <strong>" + resultData.Devices[i].SectorName + "</strong></p>"
                             + "<p>Leito: <strong>" + resultData.Devices[i].BedName + "</strong></p>"
                             + "<p>Umidade agora: <strong>" + resultData.Devices[i].HumidityPercent + "%</strong></p>"
+                            + "<p>Umidade limite da fralda: <strong>" + resultData.Devices[i].DiaperHumidityPercent + "%</strong></p>"
                             + "<p>Última troca: <strong>" + resultData.Devices[i].LastChangeTimeFormat + "</strong></p>"
                             + "</div>"
                             + "</div>"
